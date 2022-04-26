@@ -38,7 +38,7 @@ export const signUp = async(req,res) => {
 
         if(password !== confirmPassword) return res.status(400).json({message:"Password doesn't match"})
 
-       const hashedPassword  = await sh(pbcrypt.haassword,12)
+       const hashedPassword  = await bcrypt.hash(password,12)
 
         const result = await User.create({email, password:hashedPassword, name:`${firstName} ${lastName}`});
         
@@ -49,6 +49,7 @@ export const signUp = async(req,res) => {
 
     } catch (error) {
         res.status(500).json({message:"Something went wrong!"})
+        console.log(error);
 
     }
 }
